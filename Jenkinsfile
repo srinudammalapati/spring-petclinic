@@ -1,20 +1,39 @@
 pipeline {
     agent any
     stages {
-        stage ('git clone') {
+        stage ('Clone') {
             steps {
-                git url: "https://github.com/srinudammalapati/spring-petclinic.git",
-                branch: 'main'
+                git branch: 'main', url: "https://github.com/srinudammalapati/spring-petclinic.git"
             }
         }
-        stage ('build') {
+
+        stage ('jfrog') {
             steps {
-                sh 'mvn package'
+                rtMavenDeployer (
+                    id: "srinu_DEPLOYER",
+                    serverId: "srinuserver id",
+                    releaseRepo: default-libs-release-local,
+                    snapshotRepo: default-libs-snapshot-local
+                )
             }
         }
-        stage ('archive results') {
+
+        stage ('Exec Maven') {
             steps {
-                Junits '**/surefire-reports/*.xml'
+                rtMavenRun (
+                    tool:  MAVEN_PACKAGE, // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "srinu_DEPLOYER",
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "srinuserver id"
+                )
             }
         }
     }
