@@ -12,5 +12,10 @@ pipeline {
                 sh 'mvn package'
             }
         }
+        stage ('archive results') {
+            steps {
+                Junits '**/surefire-reports/*.xml'
+            }
+        }
     }
 }
