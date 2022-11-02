@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { lable 'openjdk-11-maven'}
     stages {
         stage ('Clone') {
             steps {
@@ -7,33 +7,15 @@ pipeline {
             }
         }
 
-        stage ('jfrog') {
+        stage ('build') {
             steps {
-                rtMavenDeployer (
-                    id: "srinu_DEPLOYER",
-                    serverId: "srinuserver id",
-                    releaseRepo: default-libs-release-local,
-                    snapshotRepo: default-libs-snapshot-local
-                )
+                sh 'mvn package'
             }
         }
 
-        stage ('Exec Maven') {
+        stage ('archive results') {
             steps {
-                rtMavenRun (
-                    tool:  MAVEN_PACKAGE, // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "srinu_DEPLOYER",
-                )
-            }
-        }
-
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "srinuserver id"
-                )
+              junit '**/surefire-reports/*.xml'
             }
         }
     }
