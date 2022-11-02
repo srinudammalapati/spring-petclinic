@@ -1,5 +1,5 @@
 pipeline {
-    agent { lable 'openjdk-11-maven'}
+    agent { label 'openjdk-11-maven'}
     stages {
         stage ('Clone') {
             steps {
