@@ -1,21 +1,53 @@
 pipeline {
-    agent { label 'openjdk-11-maven'}
+    agent any
+     parameters {
+         string (name: 'MAVEN_GOAL', defaultValue: 'CLEAN INSTALL', description: 'GOALS TO MAVEN')
+          }
+
+     triggers {
+         pollSCM('* * * * *')
+          }
+
     stages {
         stage ('Clone') {
             steps {
-                git branch: 'main', url: "https://github.com/srinudammalapati/spring-petclinic.git"
+                git url: "https://github.com/srinudammalapati/spring-petclinic.git",
+                branch: 'main'
+            }
+        }
+         stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "JFROGID",
+                    url: "https://rameshd.jfrog.io/",
+                    credentialsId: "JFROG_ADMIN_IDS"
+                )
+
+                rtMavenDeployer (
+                    id: "srinuid",
+                    serverId: "JFROGID",
+                    releaseRepo: gopi-libs-release-local,
+                    snapshotRepo: gopi-libs-release-local
+                )
             }
         }
 
-        stage ('build') {
+        stage ('Exec Maven') {
             steps {
-                sh 'mvn package'
+                rtMavenRun (
+                    tool: MVN_DEFAULT, // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "srinuid",
+                )
             }
         }
 
-        stage ('archive results') {
+        stage ('Publish build info') {
             steps {
-              junit '**/surefire-reports/*.xml'
+                rtPublishBuildInfo (
+                    serverId: "JFROGID"
+                )
             }
         }
     }
