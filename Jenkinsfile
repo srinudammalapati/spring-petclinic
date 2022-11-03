@@ -26,8 +26,8 @@ pipeline {
                 rtMavenDeployer (
                     id: "srinuid",
                     serverId: "JFROGID",
-                    releaseRepo: gopi-libs-release-local,
-                    snapshotRepo: gopi-libs-release-local
+                    releaseRepo: "gopi-libs-release-local",
+                    snapshotRepo: "gopi-libs-snapshot-local"
                 )
             }
         }
@@ -35,9 +35,9 @@ pipeline {
         stage ('Exec Maven') {
             steps {
                 rtMavenRun (
-                    tool: MVN_DEFAULT, // Tool name from Jenkins configuration
+                    tool: MAVEN,
                     pom: 'pom.xml',
-                    goals: 'clean install',
+                    goals: "${params.MAVEN_GOAL}",
                     deployerId: "srinuid",
                 )
             }
