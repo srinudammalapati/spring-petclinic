@@ -7,10 +7,13 @@ pipeline {
                 branch: 'main'
             }
         }
-        stage ('build & SonarQube analysis') {
+        stage("build & SonarQube analysis") {
             steps {
-               withSonarQubeEnv('srinu')
-               sh 'mvn build package sonar:sonar'
+                 withSonarQubeEnv('srinu') {
+                
+                    sh 'mvn clean package sonar:sonar'
+           }
+              
             }
         }
     }
