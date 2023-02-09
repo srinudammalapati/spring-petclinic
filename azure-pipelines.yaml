@@ -1,0 +1,20 @@
+---
+  pool: devpool
+
+  trigger: 
+    - main
+
+  stages:
+    - stage: buildsstage
+      displayName: spcbuild
+      jobs:
+        - job: mavenjob
+          displayName: maven
+          steps:
+            - task: Maven@3
+              inputs: 
+                mavenPOMFile: 'pom.xml'
+                goals: 'package'
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                jdkVersionOption: "1.11"
