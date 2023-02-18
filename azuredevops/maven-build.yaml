@@ -21,7 +21,8 @@ parameteres:
     default: main
     values: 
       - master
-      - develop    
+      - develop  
+      - main  
 
 stages:
     - stage: build
