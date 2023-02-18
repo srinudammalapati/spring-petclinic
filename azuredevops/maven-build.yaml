@@ -1,0 +1,37 @@
+---
+parameteres:
+  - name: goal
+    type: string
+    default: package
+    values:
+      - package
+      - clean
+      - compile
+      - deploy
+      - install 
+  - name: jdkVersionoption
+    type: string
+    default: '1.11' 
+    values:
+      - '1.11'
+      - '1.17'
+      - '1.8'
+  - name: branch
+    type: string
+    default: main
+    values: 
+      - master
+      - develop    
+
+stages:
+    - stage: build
+      jobs:
+        - job:
+          steps:
+            - task: Maven@3
+              inputs:
+                mavenPomFile: 'pom.xml'
+                goals: "${{parameteres.goal}}"
+                publishJUnitResults: true
+                testResultsFiles: '**/surefire-reports/TEST-*.xml'
+                jdkVersionOption: "${{parameteres.jdkVersionoption}}"

@@ -3,18 +3,9 @@
 
   trigger: 
     - main
+  extends:
+    template: ./azuredevops/maven-build.yaml
+    parameters:
+      goal: package
+      jdkVersionoption: 1.11
 
-  stages:
-    - stage: buildsstage
-      displayName: spcbuild
-      jobs:
-        - job: mavenjob
-          displayName: maven
-          steps:
-            - task: Maven@3
-              inputs: 
-                mavenPOMFile: 'pom.xml'
-                goals: 'package'
-                publishJUnitResults: true
-                testResultsFiles: '**/surefire-reports/TEST-*.xml'
-                jdkVersionOption: "1.11"
