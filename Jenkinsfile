@@ -1,20 +1,22 @@
-pipeline {
-    agent { label 'sonar'}
-    stages {
-        stage (clone) {
-            steps {
-                git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
-                branch: 'main'
-            }
+---
+pipeline{
+    agent {label 'JDK11-MAVEN'}
+    stages{
+       stage(gitclone) {
+        steps{
+            git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
+            branch: 'main'
         }
-        stage("build & SonarQube analysis") {
-            steps {
-                 withSonarQubeEnv('srinu') {
-                
-                    sh 'mvn clean package sonar:sonar'
-           }
-              
-            }
+       }
+       stage(build){
+        steps{
+            sh 'mvn package'
         }
+       }
+       stage(archive results){
+        steps{
+            Junit '**/surefire-reports/*.xml'
+        }
+       }
     }
 }
