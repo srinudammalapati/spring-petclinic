@@ -1,19 +1,18 @@
----
 pipeline{
     agent {label 'JDK11-MAVEN'}
     stages{
-       stage(gitclone) {
+       stage('gitclone') {
         steps{
             git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
             branch: 'main'
         }
        }
-       stage(build){
+       stage('build'){
         steps{
             sh 'mvn package'
         }
        }
-       stage(archive results){
+       stage('archive results'){
         steps{
             Junit '**/surefire-reports/*.xml'
         }
