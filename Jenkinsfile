@@ -6,6 +6,7 @@ pipeline{
     }
      triggers{
         pollSCM('* * * * *') 
+        
     }
     stages{
        stage('gitclone') {
