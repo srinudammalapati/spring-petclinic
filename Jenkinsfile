@@ -5,8 +5,8 @@ pipeline{
         string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'maven goal')
     }
      triggers{
-        pollSCM('* * * * *') 
-        
+        pollSCM('30 12 * * *') 
+
     }
     stages{
        stage('gitclone') {
