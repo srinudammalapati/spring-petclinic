@@ -3,6 +3,9 @@ pipeline{
     parameters{
         choice(name: 'BRANCH_TO_BUILD', choices: ['main', 'develop',], description: 'branch to build')
         string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'maven goal')
+    triggers{
+        pollSCM('* * * * *') 
+    }
     }
     stages{
        stage('gitclone') {
