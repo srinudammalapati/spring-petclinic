@@ -8,12 +8,12 @@ pipeline{
        stage('gitclone') {
         steps{
             git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
-            branch: "$(params.BRANCH_TO_BUILD)"
+            branch: "${params.BRANCH_TO_BUILD}"
         }
        }
        stage('build'){
         steps{
-            sh "$(params.MAVEN_GOAL)"
+            sh "${params.MAVEN_GOAL}"
         }
        }
        stage('archive results'){
