@@ -5,7 +5,4 @@
     - main
   extends:
     template: ./azuredevops/maven-build.yaml
-    parameters:
-      goal: package
-      jdkVersionoption: 1.11
-
+   

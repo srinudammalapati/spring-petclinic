@@ -1,5 +1,5 @@
 ---
-parameteres:
+parameters:
   - name: goal
     type: string
     default: package
@@ -32,7 +32,7 @@ stages:
             - task: Maven@3
               inputs:
                 mavenPomFile: 'pom.xml'
-                goals: "${{parameteres.goal}}"
+                goals: "${{parameters.goal}}"
                 publishJUnitResults: true
                 testResultsFiles: '**/surefire-reports/TEST-*.xml'
-                jdkVersionOption: "${{parameteres.jdkVersionoption}}"
+                jdkVersionOption: "${{parameters.jdkVersionoption}}"
