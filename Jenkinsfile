@@ -1,29 +1,38 @@
-pipeline{
-    agent {label 'JDK11-MAVEN'}
-    parameters{
-        choice(name: 'BRANCH_TO_BUILD', choices: ['main', 'develop',], description: 'branch to build')
-        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'maven goal')
-    }
-     triggers{
-        pollSCM('H 12 * * *') 
-
-    }
-    stages{
-       stage('gitclone') {
-        steps{
+pipeline {
+    agent any
+    stages {
+       stage('vcs') {
+        steps {
             git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
-            branch: "${params.BRANCH_TO_BUILD}"
+                branch: 'main'    
         }
        }
-       stage('build'){
-        steps{
-            sh "mvn ${params.MAVEN_GOAL}"
+       stage ('Artifactory configuration') {
+            steps {
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "QTSUPERUSER",
+                    releaseRepo: 'qtdev-libs-release-local',
+                    snapshotRepo: 'qtdev-libs-snapshot-local'
+                )
+           }
         }
-       }
-       stage('archive results'){
-        steps{
-           junit '**/surefire-reports/*.xml'
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'MAVEN-3.6.3', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'install',
+                    deployerId: "MAVEN_DEPLOYER"
+                )
+            }
         }
-       }
-    }
-}
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "QTSUPERUSER"
+                )
+            }
+        }
+    }  
+}          
