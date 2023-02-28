@@ -7,6 +7,20 @@ pipeline {
                 branch: 'main'    
         }
        }
+        stage("build & SonarQube analysis") {
+            steps {
+              withSonarQubeEnv('devops_sf_token') {
+                sh "mvn package sonar:sonar"
+              }
+            }
+          }
+          stage("Quality Gate") {
+            steps {
+              timeout(time: 30, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }       
        stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
