@@ -1,10 +1,10 @@
 pipeline {
-    agent any
+    agent {label 'TERRAFORM'}
     stages {
        stage('vcs') {
         steps {
             git url: 'https://github.com/srinudammalapati/spring-petclinic.git',
-                branch: 'main'    
+                branch: 'dev'    
         }
        }
        stage ('Artifactory configuration') {
@@ -20,7 +20,7 @@ pipeline {
         stage ('Exec Maven') {
             steps {
                 rtMavenRun (
-                    tool: 'MAVEN-3.6.3', // Tool name from Jenkins configuration
+                    tool: 'MAVEN_DEFAULT', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'install',
                     deployerId: "MAVEN_DEPLOYER"
