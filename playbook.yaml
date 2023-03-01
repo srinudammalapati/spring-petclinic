@@ -1,0 +1,27 @@
+---
+- name: install spring pectclinic on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: install openjdk-11-jdk
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        state: present
+        update_cache: yes
+    - name: Download jfrog url
+      ansible.builtin.get_url:
+        url: https://qtsuperuser.jfrog.io/artifactory/qtdev-libs-release-local/org/springframework/samples/spring-petclinic/2.7.3/spring-petclinic-2.7.3.jar
+        dest: /home/srinu
+        username: srinudammalapati963@gmail.com
+        password: AKCp8nzWYxwwo4csZDXxhAtmomxZ7Q95taf4q2LZRatFYmERFynns8dGo4eoVGBgXVtKSind1
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+      src: /home/srinu
+      dest: /etc/systemd/system/springpetclinic.service    
+    - name: Restart service 
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: yes
+        name: springpetclinic.service
+    
+  
