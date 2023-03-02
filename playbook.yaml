@@ -1,5 +1,5 @@
 ---
-- name: install spring pectclinic on ubuntu
+- name: install springpetclinic on ubuntu
   hosts: all
   become: yes
   tasks:

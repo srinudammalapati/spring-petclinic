@@ -37,8 +37,9 @@ pipeline {
         }
         stage('ansible'){
             agent {label 'ANSIBLE'}
+            
             steps {
-                sh 'ansible-playbook -i hosts palybook.yaml'
+                sh 'ansible-playbook -i hosts playbook.yaml'
             }
         }
     }  
