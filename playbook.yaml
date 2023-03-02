@@ -11,12 +11,12 @@
     - name: Download jfrog url
       ansible.builtin.get_url:
         url: https://qtsuperuser.jfrog.io/artifactory/qtdev-libs-release-local/org/springframework/samples/spring-petclinic/2.7.3/spring-petclinic-2.7.3.jar
-        dest: /home/srinu
+        dest: /home/devops
         username: srinudammalapati963@gmail.com
         password: AKCp8nzWYxwwo4csZDXxhAtmomxZ7Q95taf4q2LZRatFYmERFynns8dGo4eoVGBgXVtKSind1
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
-        src: /home/srinu
+        src: /home/devops
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes   
     - name: Restart service 
