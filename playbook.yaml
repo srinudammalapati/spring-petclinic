@@ -21,7 +21,7 @@
         mode: 777
     - name: service started and reload
       ansible.builtin.systemd:
-        state: restarted
+        state: started
         daemon_reload: yes
         name: springpetclinic.service
         

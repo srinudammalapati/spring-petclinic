@@ -4,9 +4,12 @@ Description=spring-pectclinic java application
 
 [Service]
 
-User=devops
-ExecStart=/usr/bin/java -jar spring-petclinic-2.7.3.jar
+User=devops 
+
 WorkingDirectory=/home/devops
+
+ExecStart=/usr/bin/java -jar spring-petclinic-2.7.3.jar
+
 
 [Install]
 WantedBy=multi-user.target
