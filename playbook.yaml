@@ -19,11 +19,7 @@
         src: /home/devops
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes    
-    - name: Create a directory if it does not exist
-      ansible.builtin.file:
-        path: /etc/home/devops
-        state: directory
-        mode: '0777' 
+        mode: 777 
     - name: Restart service 
       ansible.builtin.systemd:
         state: restarted
