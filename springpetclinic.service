@@ -4,8 +4,7 @@ Description=spring-pectclinic java application
 
 [Service]
 
-User=jenkins
-
+User=devops
 ExecStart=/usr/bin/java -jar spring-petclinic-2.7.3.jar
 WorkingDirectory=/home/devops
 
