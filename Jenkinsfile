@@ -1,5 +1,6 @@
 pipeline {
     agent {label 'TERRAFORM'}
+    triggers {pollSCM ('* * * * *')}
     stages {
        stage('vcs') {
         steps {
@@ -32,6 +33,12 @@ pipeline {
                 rtPublishBuildInfo (
                     serverId: "QTSUPERUSER"
                 )
+            }
+        }
+        stage('ansible'){
+            agent {label 'ANSIBLE'}
+            steps {
+                sh 'ansible-playbook -i hosts palybook.yaml'
             }
         }
     }  
