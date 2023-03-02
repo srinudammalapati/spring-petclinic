@@ -16,7 +16,7 @@
         password: AKCp8nzWYxwwo4csZDXxhAtmomxZ7Q95taf4q2LZRatFYmERFynns8dGo4eoVGBgXVtKSind1
     - name: Copy file with owner and permissions
       ansible.builtin.copy:
-        src: /home/devops
+        src: springpetclinic.service
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes    
         mode: 777
