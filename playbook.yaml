@@ -19,7 +19,6 @@
         src: /home/devops
         dest: /etc/systemd/system/springpetclinic.service 
         remote_src: yes    
-        mode: 777 
     - name: Restart service 
       ansible.builtin.systemd:
         state: restarted
