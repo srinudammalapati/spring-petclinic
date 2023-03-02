@@ -15,9 +15,9 @@
         username: srinudammalapati963@gmail.com
         password: AKCp8nzWYxwwo4csZDXxhAtmomxZ7Q95taf4q2LZRatFYmERFynns8dGo4eoVGBgXVtKSind1
     - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-      src: /home/srinu
-      dest: /etc/systemd/system/springpetclinic.service    
+        ansible.builtin.copy:
+        src: /home/srinu
+        dest: /etc/systemd/system/springpetclinic.service    
     - name: Restart service 
       ansible.builtin.systemd:
         state: restarted
