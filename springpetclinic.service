@@ -5,7 +5,7 @@ Description=spring-pectclinic java application
 [Service]
 
 ExecStart=/usr/bin/java -jar spring-petclinic-2.7.3.jar
-WorkingDirectory=/home/srinu
+WorkingDirectory=/home/devops
 
 [Install]
 WantedBy=multi-user.target
