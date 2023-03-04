@@ -10,7 +10,7 @@ resources:
     - repository: azuredevopsparameters
       endpoint: github.com_srinudammalapati
       ref: 'refs/heads/master'
-      name: srinudammalpati/azuredevops
+      name: srinudammalapati/azuredevops
       type: github  
 stages:
   - template: azuredevops/azuredevopstemplate.yaml@azuredevopsparameters
