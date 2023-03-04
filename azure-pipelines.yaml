@@ -13,7 +13,7 @@ resources:
       name: srinudammalpati/azuredevops
       type: github  
 stages:
-  - template: azuredevops/azuredevostemplate.yaml@azuredevopsparameters
+  - template: azuredevops/azuredevopstemplate.yaml@azuredevopsparameters
     parameters:
       goal: package
       javaversion: "1.11"
