@@ -18,3 +18,7 @@ stages:
       goal: package
       javaversion: "1.11"
       javadirectory: /usr/lib/jvm/java-11-openjdk-amd64/
+
+
+
+
