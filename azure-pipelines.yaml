@@ -8,7 +8,7 @@ trigger:
 resources:
   repositories:
     - repository: azuredevopsparameters
-      endpoint: GitHub
+      endpoint: github.com_srinudammalapati
       ref: 'refs/heads/qa'
       name: srinudammalpati/azuredevops
       type: github  
