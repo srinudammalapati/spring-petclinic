@@ -9,7 +9,7 @@ resources:
   repositories:
     - repository: azuredevopsparameters
       endpoint: github.com_srinudammalapati
-      ref: 'refs/heads/qa'
+      ref: 'refs/heads/master'
       name: srinudammalpati/azuredevops
       type: github  
 stages:
