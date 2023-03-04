@@ -16,6 +16,12 @@ parameters:
       - '1.11'
       - '1.17'
       - '1.8'
+  - name: jdkdirectory
+    type: string
+    default: /usr/lib/jvm/java-11-openjdk-amd64/
+    values: 
+      - /usr/lib/jvm/java-11-openjdk-amd64/
+      - /usr/lib/jvm/java-8-openjdk-amd64/    
   - name: branch
     type: string
     default: main
@@ -36,3 +42,4 @@ stages:
                 publishJUnitResults: true
                 testResultsFiles: '**/surefire-reports/TEST-*.xml'
                 jdkVersionOption: "${{parameters.jdkVersionoption}}"
+                jdkdirectory: "${{parameters.jdkdirectory}}"
