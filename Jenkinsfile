@@ -1,5 +1,8 @@
 pipeline {
-    agent {label 'TERRAFORM'}
+    agent {label 'SPRING'}
+    triggers {
+      cron('* * * * *')
+    }
     stages {
        stage('vcs') {
         steps {
@@ -9,7 +12,7 @@ pipeline {
        }
         stage("build & SonarQube analysis") {
             steps {
-              withSonarQubeEnv('test_sf_token') {
+              withSonarQubeEnv('dev_self_token') {
                 sh "mvn package sonar:sonar"
               }
             }
@@ -25,9 +28,9 @@ pipeline {
             steps {
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
-                    serverId: "QTSUPERUSER",
-                    releaseRepo: 'qtdev-libs-release-local',
-                    snapshotRepo: 'qtdev-libs-snapshot-local'
+                    serverId: "supermahesh",
+                    releaseRepo: 'dev-libs-release-local',
+                    snapshotRepo: 'dev-libs-snapshot-local'
                 )
            }
         }
@@ -44,9 +47,20 @@ pipeline {
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    serverId: "QTSUPERUSER"
+                    serverId: "supermahesh"
                 )
             }
+        }
+        stage ('docker build and push') {
+          agent {label 'DOCKER'}
+          environment {
+              AN_ACCESS_KEY = credentials('jfrog_id')
+          }
+          steps {
+            sh 'docker image build -t spcdev:1.0 .'
+            sh 'docker image tag spcdev:1.0 supermahesh.jfrog.io/test-docker-local/spcdev:1.0'
+            sh 'docker image push supermahesh.jfrog.io/test-docker-local/spcdev:1.0'
+          }
         }
     }  
 }          
