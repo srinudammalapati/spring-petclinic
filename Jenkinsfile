@@ -26,7 +26,7 @@ pipeline {
             steps {
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
-                    serverId: "supermahesh",
+                    serverId: "jfrog_id",
                     releaseRepo: 'dev-libs-release-local',
                     snapshotRepo: 'dev-libs-snapshot-local'
                 )
@@ -45,7 +45,7 @@ pipeline {
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    serverId: "supermahesh"
+                    serverId: "jfrog_id"
                 )
             }
         }
