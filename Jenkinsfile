@@ -45,7 +45,7 @@ pipeline {
         stage ('docker build and push') {
           agent {label 'DOCKER'}
           environment {
-              AN_ACCESS_KEY = credentials('jfrog_id')
+              AN_ACCESS_KEY = credentials('jfrog_ids')
           }
           steps {
             sh 'docker image build -t spcdev:1.0 .'
