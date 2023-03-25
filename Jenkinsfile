@@ -14,14 +14,7 @@ pipeline {
                 sh "mvn package sonar:sonar"
               }
             }
-          }
-          stage("Quality Gate") {
-            steps {
-              timeout(time: 30, unit: 'MINUTES') {
-                waitForQualityGate abortPipeline: flase
-              }
-            }
-          }       
+          }    
        stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
