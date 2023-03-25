@@ -1,8 +1,6 @@
 pipeline {
     agent {label 'SPRING'}
-    triggers {
-      cron('* * * * *')
-    }
+    triggers {pollSCM '* * * * *'}
     stages {
        stage('vcs') {
         steps {
@@ -12,7 +10,7 @@ pipeline {
        }
         stage("build & SonarQube analysis") {
             steps {
-              withSonarQubeEnv('dev_self_token') {
+              withSonarQubeEnv('sonarqube_id') {
                 sh "mvn package sonar:sonar"
               }
             }
@@ -39,7 +37,7 @@ pipeline {
                 rtMavenRun (
                     tool: 'MAVEN_DEFAULT', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
-                    goals: 'install',
+                    goals: 'package',
                     deployerId: "MAVEN_DEPLOYER"
                 )
             }
