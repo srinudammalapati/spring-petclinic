@@ -10,7 +10,7 @@ pipeline {
        }
         stage("build & SonarQube analysis") {
             steps {
-              withSonarQubeEnv('sonar') {
+              withSonarQubeEnv('sonarqube_ids') {
                 sh "mvn package sonar:sonar"
               }
             }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
-                    serverId: "jfrog",
+                    serverId: "jfrog_ids",
                     releaseRepo: 'dev-libs-release-local',
                     snapshotRepo: 'dev-libs-snapshot-local'
                 )
@@ -38,7 +38,7 @@ pipeline {
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    serverId: "jfrog"
+                    serverId: "jfrog_ids"
                 )
             }
         }
