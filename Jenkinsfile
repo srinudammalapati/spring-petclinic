@@ -53,5 +53,16 @@ pipeline {
             sh 'docker image push supermahesh.jfrog.io/test-docker-local/spcdev:1.0'
           }
         }
+        stage('docker image pull'){
+            agent {label 'DOCKER'}
+            environment {
+                AN_ACCESS_KEY = credentials('jdocker_ids')
+            }
+            steps{
+                sh 'docker image pull supermahesh.jfrog.io/test-docker-local/spcdev:1.0'
+                sh 'docker container run -d --name springpet -P spcdev:1.0'
+                sh 'docker container ls -a'
+            }
+        }
     }  
 }          
