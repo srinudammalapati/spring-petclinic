@@ -10,7 +10,7 @@ pipeline {
        }
         stage("build & SonarQube analysis") {
             steps {
-              withSonarQubeEnv('sonar_id') {
+              withSonarQubeEnv('sonar') {
                 sh "mvn package sonar:sonar"
               }
             }
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 rtMavenDeployer (
                     id: "MAVEN_DEPLOYER",
-                    serverId: "jfrog_id",
+                    serverId: "jfrog",
                     releaseRepo: 'dev-libs-release-local',
                     snapshotRepo: 'dev-libs-snapshot-local'
                 )
@@ -38,14 +38,14 @@ pipeline {
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    serverId: "jfrog_id"
+                    serverId: "jfrog"
                 )
             }
         }
         stage ('docker build and push') {
           agent {label 'DOCKER'}
           environment {
-              AN_ACCESS_KEY = credentials('jfrog_ids')
+              AN_ACCESS_KEY = credentials('jdocker_ids')
           }
           steps {
             sh 'docker image build -t spcdev:1.0 .'
