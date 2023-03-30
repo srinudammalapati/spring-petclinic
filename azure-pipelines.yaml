@@ -2,9 +2,36 @@
   pool: devpool
 
   trigger: 
-    - main
+    - dev
   variables:
     JAVA_HOME_11_X64: '/usr/lib/jvm/java-11-openjdk-amd64'   
-  extends:
-    template: ./azuredevops/maven-build.yaml
-   
+  stages:
+    - stage: build
+      jobs: 
+        - job: imagebuild
+          steps:
+            - task: Docker@2
+              inputs:
+                containerRegistry: acr
+                repository: spring
+                command: 'buildAndPush'
+                Dockerfile: '**/Dockerfile'
+                tags: '$(Build.BuildId)'
+    - stage: deploy
+      dependsOn: build
+      condition: succeeded()
+      jobs:
+        - job: deployimage
+          steps:
+            - task: Kubernetes@1
+              inputs:
+                connectionType:  Azure Resource Manager
+                kubernetesServiceEndpoint: acr_id
+                azureResourceGroup: srinug
+                kubernetesCluster: srinucluster
+                command: apply
+                useConfigurationFile: true
+                configurationType: configuration
+                configuration: deployments/spring.yaml
+
+
