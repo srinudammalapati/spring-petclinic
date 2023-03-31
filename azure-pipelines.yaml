@@ -32,6 +32,6 @@
                 command: apply
                 useConfigurationFile: true
                 configurationType: configuration
-                configuration: deployments/spring.yaml
+                configuration: deployment/spring.yaml
 
 
