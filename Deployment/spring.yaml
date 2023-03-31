@@ -18,7 +18,7 @@ spec:
   spec:
     Container:
       - name: spr-app
-        image: 
+        image: qtuat.azurecr.io/spr:1.0
         ports:
           - containerPort: 8080
             protocol: TCP        
