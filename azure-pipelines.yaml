@@ -15,7 +15,7 @@
                 containerRegistry: acr
                 repository: spr
                 command: 'buildAndPush'
-                Dockerfile: '**/Dockerfile'
+                Dockerfile: Dockerfile
                 tags: '$(Build.BuildId)'
     - stage: deploy
       dependsOn: build
@@ -27,8 +27,8 @@
               inputs:
                 connectionType:  Azure Resource Manager
                 kubernetesServiceEndpoint: acr_id
-                azureResourceGroup: srinug
-                kubernetesCluster: srinucluster
+                azureResourceGroup: myResourceGroup
+                kubernetesCluster: myAKSCluster 
                 command: apply
                 useConfigurationFile: true
                 configurationType: configuration
