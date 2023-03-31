@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+Kind: ReplicaSet
+metadata: 
+  name: springpetclinic
+spec:
+  minReadySeconds: 10
+  replicas: 5
+  selector:
+    matchLabels:
+      app: spr
+  template: 
+    metadata:
+      name: springpetclinic
+    labels:
+      app: spr
+      ver: v1
+  spec:
+    Container:
+      - name: spr-app
+        image: 
+        ports:
+          - containerPort: 8080
+            protocol: TCP        
+  imagePullSecrets:
+    - name: srinu
