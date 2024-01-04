@@ -1,10 +1,26 @@
 ---
-  pool: devpool
+pool: devpool
 
-  trigger: 
-    - main
-  variables:
-    JAVA_HOME_11_X64: '/usr/lib/jvm/java-11-openjdk-amd64'   
-  extends:
-    template: ./azuredevops/maven-build.yaml
-   
+
+trigger:
+  - qa
+variables:
+  JAVA_HOME_11_X64: '/usr/lib/jvm/java-11-openjdk-amd64'  
+
+resources:
+  repositories:
+    - repository: azuredevopsparameters
+      endpoint: github.com_srinudammalapati
+      ref: 'refs/heads/master'
+      name: srinudammalapati/azuredevops
+      type: github  
+stages:
+  - template: azuredevops/azuredevopstemplate.yaml@azuredevopsparameters
+    parameters:
+      goal: package
+      javaversion: "1.11"
+      javadirectory: /usr/lib/jvm/java-11-openjdk-amd64/
+
+
+
+
